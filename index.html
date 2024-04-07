@@ -24,14 +24,14 @@
         xhr.open("GET", API_IP_INFO, false);
         xhr.onreadystatechange = function () {
             if (this.readyState == 4) {
-                var data = JSON.parse(this.responseText);
+                var data = JSON.stringify(this.responseText);
                 console.log(data);
                 var outPut = document.getElementById("output");
                 cityLocation = data.longitude + "," + data.latitude;
                 cIp = data.ip;
                 city = data.region;
                 timezoneOffset = parseInt(data.utc_offset || "+0800") * 0.6
-                outPut.innerText = timezoneOffset;
+                outPut.innerText = data;
             }
         };
         xhr.send(null)
