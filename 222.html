@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>test</title>
+<title>test2</title>
 </head>
 <body>
     <div id="output"></div>
     <script>
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+        }
+        return "";
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toGMTString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+
     try {
-        var rotation_mode_default = 0; // 默认使用0-竖屏模式 0=0°，1=90°，2=180°，3=270°
+        var rotation_mode_default = 3; // 默认使用0-竖屏模式 0=0°，1=90°，2=180°，3=270°
+        var rotation_mode = getCookie("rotation_mode"); 
         // rotation_mode 屏幕旋转标识
         if (rotation_mode !== "") {
-          rotation_mode = Number(rotation_mode);
+            console.log("if-test");
+            rotation_mode = Number(rotation_mode);
         } else {
-          rotation_mode = rotation_mode_default;
-          setCookie("rotation_mode", rotation_mode, 30);
+            console.log("else-test");
+            rotation_mode = rotation_mode_default;
+            setCookie("rotation_mode", rotation_mode, 30);
         }
         var outPut = document.getElementById("output");
         outPut.innerText = document.cookie;
