@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>test</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script>
+    try {
+        var rotation_mode_default = 0; // 默认使用0-竖屏模式 0=0°，1=90°，2=180°，3=270°
+        // rotation_mode 屏幕旋转标识
+        if (rotation_mode !== "") {
+          rotation_mode = Number(rotation_mode);
+        } else {
+          rotation_mode = rotation_mode_default;
+          setCookie("rotation_mode", rotation_mode, 30);
+        }
+        var outPut = document.getElementById("output");
+        outPut.innerText = document.cookie;
+    } catch (error) {
+        // 处理异常的代码块
+        console.log("Caught an error:", error); // 输出捕获到的异常
+    }
+    </script>
+</body>
+</html>
