@@ -1,5 +1,5 @@
 window.onload = function () {
-    getIpInfo();
+    // getIpInfo();
     clock(bg_autoMode);
     time_timer = setInterval("clock(" + bg_autoMode + ")", 60 * 1000);
     if (rotation_mode !== "") {
@@ -41,10 +41,10 @@ window.onload = function () {
         setCookie("bg_mode", bg_mode, 30)
     }
     addEvent(bg_autoMode);
-    // delayHiddenSetting()
+    delayHiddenSetting()
 };
 var KEY_UNSPLASH = "bXwWoUhPeVw-yvSesGMgaOENnlSzhHYB43kZIQOR8cQ";
-var KEY_QWEATHER = "49dd84c65fb24d2ebbfd30296e0d8068";
+var KEY_QWEATHER = getCookie("qweatherKey");
 var API_HITOKOTO = "https://v1.hitokoto.cn?encode=json&charset=utf-8";
 var API_IP_INFO = "https://ipapi.co/json?languages=zh-CN";
 var API_WEATHER = "https://devapi.qweather.com/v7/weather/now?";
@@ -61,7 +61,7 @@ var rotation_mode_default = 0;
 var hour24_default = false;
 var bg_autoMode = false;
 var weibo_num = 3;
-var timezoneOffset = -480;
+var timezoneOffset = 0;
 var cIp = "";
 var city = "";
 var cityLocation = null;
@@ -141,6 +141,7 @@ function getIpInfo() {
 
 function clock(autoMode) {
     var date = new Date();
+    timezoneOffset = 480;
     var utc8DiffMinutes = date.getTimezoneOffset() + timezoneOffset;
     date.setMinutes(date.getMinutes() + utc8DiffMinutes);
     var MM = date.getMonth() + 1;
@@ -193,10 +194,10 @@ function getLunar() {
 }
 
 function weather() {
-    // if (!getCookie("qweatherKey")) {
-    //     document.getElementById("weaTitle").innerHTML = "请刷新后点击右上角设置按钮填写 API Key～";
-    //     return
-    // }
+    if (!getCookie("qweatherKey")) {
+        document.getElementById("weaTitle").innerHTML = "请刷新后点击右上角设置按钮填写 API Key～";
+        return
+    }
     console.log("weather update");
     var xhr = createXHR();
     xhr.open("GET", API_WEATHER + "key=" + KEY_QWEATHER + "&location=" + cityLocation, true);
