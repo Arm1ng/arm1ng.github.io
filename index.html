@@ -1,29 +1,42 @@
-function createXHR() {
-    var xhr = null;
-    if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest()
-    } else {
-        if (window.ActiveXObject) {
-            xhr = new ActiveXObject("Microsoft.XMLHTTP")
+<!DOCTYPE html>
+<html>
+<head>
+<title>test</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script>
+    var API_IP_INFO = "https://ipapi.co/json?languages=zh-CN";
+    function createXHR() {
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest()
+        } else {
+            if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP")
+            }
         }
+        return xhr
     }
-    return xhr
-}
-
-function getIpInfo() {
-    var xhr = createXHR();
-    xhr.open("GET", API_IP_INFO, false);
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            var data = JSON.parse(this.responseText);
-            console.log("data");
-            cityLocation = data.longitude + "," + data.latitude;
-            cIp = data.ip;
-            city = data.region;
-            timezoneOffset = parseInt(data.utc_offset || "+0800") * 0.6
-        }
-    };
-    xhr.send(null)
-}
-
-getIpInfo();
+    
+    function getIpInfo() {
+        var xhr = createXHR();
+        xhr.open("GET", API_IP_INFO, false);
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                var data = JSON.parse(this.responseText);
+                console.log(data);
+                var outPut = document.getElementById("output");
+                cityLocation = data.longitude + "," + data.latitude;
+                cIp = data.ip;
+                city = data.region;
+                outPut.innerText = cityLocation + cIp + city;
+                timezoneOffset = parseInt(data.utc_offset || "+0800") * 0.6
+            }
+        };
+        xhr.send(null)
+    }
+    getIpInfo();
+    </script>
+</body>
+</html>
