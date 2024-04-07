@@ -30,7 +30,8 @@
                 cityLocation = data.longitude + "," + data.latitude;
                 cIp = data.ip;
                 city = data.region;
-                timezoneOffset = parseInt(data.utc_offset || "+0800") * 6 / 10;
+                timezoneOffset = parseInt(data.utc_offset || "+0800") * 6;
+                timezoneOffset = timezoneOffset / 10;
                 outPut.innerText = timezoneOffset;
             }
         };
