@@ -16,7 +16,7 @@ function getIpInfo() {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
             var data = JSON.parse(this.responseText);
-            console.log("data")
+            console.log("data");
             cityLocation = data.longitude + "," + data.latitude;
             cIp = data.ip;
             city = data.region;
@@ -26,4 +26,4 @@ function getIpInfo() {
     xhr.send(null)
 }
 
-getIpInfo()
+getIpInfo();
