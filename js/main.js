@@ -16,22 +16,24 @@ window.onload = function () {
         hour24 = hour24_default;
         setCookie("hour24", hour24, 30)
     }
-    if (top_mode !== "") {
-        top_mode = Number(top_mode)
-    } else {
-        top_mode = top_mode_default;
-        setCookie("top_mode", top_mode, 30)
-    }
-    top_mode = top_mode === 0 ? TOP_MODE.length - 1 : top_mode - 1;
-    changeTopMode();
-    if (bottom_mode !== "") {
-        bottom_mode = Number(bottom_mode)
-    } else {
-        bottom_mode = bottom_mode_default;
-        setCookie("bottom_mode", bottom_mode, 30)
-    }
-    bottom_mode = bottom_mode === 0 ? BOTTOM_MODE.length - 1 : bottom_mode - 1;
-    changeBottomMode();
+    weather()
+    document.getElementsByClassName("weather_container")[0].style.display = "block"
+    // if (top_mode !== "") {
+    //     top_mode = Number(top_mode)
+    // } else {
+    //     top_mode = top_mode_default;
+    //     setCookie("top_mode", top_mode, 30)
+    // }
+    // top_mode = top_mode === 0 ? TOP_MODE.length - 1 : top_mode - 1;
+    // changeTopMode();
+    // if (bottom_mode !== "") {
+    //     bottom_mode = Number(bottom_mode)
+    // } else {
+    //     bottom_mode = bottom_mode_default;
+    //     setCookie("bottom_mode", bottom_mode, 30)
+    // }
+    // bottom_mode = bottom_mode === 0 ? BOTTOM_MODE.length - 1 : bottom_mode - 1;
+    // changeBottomMode();
     if (bg_mode !== "") {
         bg_mode = Number(bg_mode);
         bg_mode = bg_mode === 0 ? BG_MODE.length - 1 : bg_mode - 1;
@@ -183,15 +185,15 @@ function clock(autoMode) {
         var weekList = ["日", "一", "二", "三", "四", "五", "六"];
         var weekString = "星期" + weekList[day];
         document.getElementById("date").innerHTML = dateString + " " + weekString;
-        getLunar()
+        // getLunar()
     }
 }
 
-function getLunar() {
-    var lunar = calendar.solar2lunar();
-    document.getElementById("lunar").innerHTML = lunar.gzYear + "年" + lunar.IMonthCn + lunar.IDayCn;
-    document.getElementById("holiday").innerHTML = "&nbsp;&nbsp;" + (lunar.lunarFestival || "") + (lunar.festival || "")
-}
+// function getLunar() {
+//     var lunar = calendar.solar2lunar();
+//     document.getElementById("lunar").innerHTML = lunar.gzYear + "年" + lunar.IMonthCn + lunar.IDayCn;
+//     document.getElementById("holiday").innerHTML = "&nbsp;&nbsp;" + (lunar.lunarFestival || "") + (lunar.festival || "")
+// }
 
 function weather() {
     if (!getCookie("qweatherKey")) {
@@ -256,41 +258,42 @@ function picture() {
     console.log("picture update")
 }
 
-function changeMode(pos) {
-    console.log("# change " + pos + " mode");
-    var pos_mode = eval(pos + "_mode");
-    var POS_MODE = eval(pos.toUpperCase() + "_MODE");
-    if (pos_mode !== 0 && eval(POS_MODE[pos_mode] + "_timer")) {
-        clearInterval(eval(POS_MODE[pos_mode] + "_timer"));
-        eval(POS_MODE[pos_mode] + "_timer = null");
-        console.log(POS_MODE[pos_mode] + "_timer destroyed")
-    }
-    pos_mode++;
-    if (pos_mode === POS_MODE.length) {
-        pos_mode = 0
-    }
-    eval(pos + "_mode = pos_mode");
-    setCookie(pos + "_mode", pos_mode, 30);
-    if (pos_mode !== 0) {
-        if (!eval(POS_MODE[pos_mode] + "_data")) {
-            eval(POS_MODE[pos_mode] + "()")
-        }
-        eval(POS_MODE[pos_mode] + '_timer = setInterval(POS_MODE[pos_mode] + "()", 60 * 1000 * 60)');
-        console.log(POS_MODE[pos_mode] + "_timer created")
-    }
-    for (var i = 0; i < POS_MODE.length; i++) {
-        document.getElementsByClassName(POS_MODE[i] + "_container")[0].style.display = "none"
-    }
-    document.getElementsByClassName(POS_MODE[pos_mode] + "_container")[0].style.display = "block"
-}
+// function changeMode(pos) {
+//     console.log("# change " + pos + " mode");
+//     var pos_mode = eval(pos + "_mode");
+//     var POS_MODE = eval(pos.toUpperCase() + "_MODE");
+//     if (pos_mode !== 0 && eval(POS_MODE[pos_mode] + "_timer")) {
+//         clearInterval(eval(POS_MODE[pos_mode] + "_timer"));
+//         eval(POS_MODE[pos_mode] + "_timer = null");
+//         console.log(POS_MODE[pos_mode] + "_timer destroyed")
+//     }
+//     pos_mode++;
+//     if (pos_mode === POS_MODE.length) {
+//         pos_mode = 0
+//     }
+//     eval(pos + "_mode = pos_mode");
+//     setCookie(pos + "_mode", pos_mode, 30);
+//     if (pos_mode !== 0) {
+//         if (!eval(POS_MODE[pos_mode] + "_data")) {
+//             eval(POS_MODE[pos_mode] + "()")
+//         }
+//         eval(POS_MODE[pos_mode] + '_timer = setInterval(POS_MODE[pos_mode] + "()", 60 * 1000 * 60)');
+//         console.log(POS_MODE[pos_mode] + "_timer created")
+//     }
+//     for (var i = 0; i < POS_MODE.length; i++) {
+//         document.getElementsByClassName(POS_MODE[i] + "_container")[0].style.display = "none"
+//     }
+//     document.getElementsByClassName(POS_MODE[pos_mode] + "_container")[0].style.display = "block"
+// }
 
-function changeTopMode() {
-    changeMode("top")
-}
+// function changeTopMode() {
+//     changeMode("top")
+// }
 
-function changeBottomMode() {
-    changeMode("bottom")
-}
+// function changeBottomMode() {
+//     changeMode("bottom")
+
+// }
 
 function rotateScreen() {
     console.log("# rotate screen " + rotation_mode);
