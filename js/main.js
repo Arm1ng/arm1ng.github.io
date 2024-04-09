@@ -20,8 +20,8 @@ window.onload = function () {
         setCookie("hour24", hour24, 30)
     }
     
-    getHitokoto()
-    getWeather()
+    runTaskEveryDelay(getHitokoto, 600 * 1000);      //每10分钟执行一次获取一言任务
+    runTaskEveryDelay(getWeather, 21600 * 1000);    //每6小时执行一次获取天气任务
 
     if (bg_mode !== "") {
         bg_mode = Number(bg_mode);
@@ -379,3 +379,13 @@ function addEvent(autoMode) {
     document.getElementById("save_button").addEventListener("click", saveSettings);
     document.getElementById("settings_backdrop").addEventListener("click", closeSettingsDialog)
 };
+
+
+function runTaskEveryDelay(task, delay) {
+    // 执行任务
+    task();
+    // 使用setTimeout来定时执行任务
+    setTimeout(function() {
+        runTaskEveryDelay(task, delay);
+    }, delay);
+}
