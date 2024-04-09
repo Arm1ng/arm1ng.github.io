@@ -17,12 +17,12 @@
 <div class="page">
     <div id="log_container"></div>
     <div id="settings_dialog">
-        <div id="settings_backdrop" class="backdrop_black" onclick="closeSettingsDialog()">
+        <div id="settings_backdrop" class="backdrop_black">
         </div>
         <div id="settings_card" class="light settings_card ">
             <div class="settings_header">
                 <span>设置</span>
-                <button id="save_button" class="button" onclick="saveSettings()">
+                <button id="save_button" class="button">
                     <span class="iconfont" id="settings_save_icon">&#xe606;                </span>
                     保存
                 </button>
@@ -38,7 +38,7 @@
         </div>
     </div>
     <span class="iconfont" id="light_dark_icon">&#xe8e3</span>
-    <span class="iconfont" id="settings_icon" onclick="openSettingsDialog()">&#xe78e;</span>
+    <span class="iconfont" id="settings_icon">&#xe78e;</span>
 
     <div id="top">
         <div class="nonetop_container">
@@ -71,8 +71,8 @@
                     <div id="apm"></div>
                 </div>
             </div>
-            <div class="time" id="time" onclick="rotateScreen()"></div>
-            <div class="date" id="date" onclick="changeBgMode()">时钟加载中...</div>
+            <div class="time" id="time"></div>
+            <div class="date" id="date">时钟加载中...</div>
             <div><span class="lunar" id="lunar"></span><span class="holiday" id="holiday"></span></div>
         </div>
     </div>
