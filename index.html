@@ -17,12 +17,12 @@
 <div class="page">
     <div id="log_container"></div>
     <div id="settings_dialog">
-        <div id="settings_backdrop" class="backdrop_black">
+        <div id="settings_backdrop" class="backdrop_black" onclick="closeSettingsDialog()">
         </div>
         <div id="settings_card" class="light settings_card ">
             <div class="settings_header">
                 <span>设置</span>
-                <button id="save_button" class="button">
+                <button id="save_button" class="button" onclick="saveSettings()">
                     <span class="iconfont" id="settings_save_icon">&#xe606;                </span>
                     保存
                 </button>
@@ -38,7 +38,7 @@
         </div>
     </div>
     <span class="iconfont" id="light_dark_icon">&#xe8e3</span>
-    <span class="iconfont" id="settings_icon">&#xe78e;</span>
+    <span class="iconfont" id="settings_icon" onclick="openSettingsDialog()">&#xe78e;</span>
 
     <div id="top">
         <div class="nonetop_container">
