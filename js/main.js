@@ -16,6 +16,8 @@ window.onload = function () {
         hour24 = hour24_default;
         setCookie("hour24", hour24, 30)
     }
+    hitokoto()
+    document.getElementsByClassName("hitokoto_container")[0].style.display = "block"
     weather()
     document.getElementsByClassName("weather_container")[0].style.display = "block"
     // if (top_mode !== "") {
@@ -42,7 +44,7 @@ window.onload = function () {
         bg_mode = bg_mode_default;
         setCookie("bg_mode", bg_mode, 30)
     }
-    // addEvent(bg_autoMode);
+    addEvent(bg_autoMode);
     delayHiddenSetting()
 };
 var KEY_UNSPLASH = "bXwWoUhPeVw-yvSesGMgaOENnlSzhHYB43kZIQOR8cQ";
@@ -292,7 +294,6 @@ function picture() {
 
 // function changeBottomMode() {
 //     changeMode("bottom")
-
 // }
 
 function rotateScreen() {
@@ -429,25 +430,18 @@ function saveSettings() {
     window.location.reload()
 }
 
-function changeHourCycle(){
-    console.log("hourCycle change");
-    hour24 = !hour24;
-    setCookie("hour24", hour24, 30);
-    clock(autoMode)
-}
-
-// function addEvent(autoMode) {
-//     document.getElementById("apmOuterWrapper").addEventListener("click", function () {
-//         console.log("hourCycle change");
-//         hour24 = !hour24;
-//         setCookie("hour24", hour24, 30);
-//         clock(autoMode)
-//     });
-//     document.getElementsByClassName("time")[0].addEventListener("click", rotateScreen);
-//     document.getElementById("top").addEventListener("click", changeTopMode);
-//     document.getElementById("bottom").addEventListener("click", changeBottomMode);
-//     document.getElementById("date").addEventListener("click", changeBgMode);
-//     document.getElementById("settings_icon").addEventListener("click", openSettingsDialog);
-//     document.getElementById("save_button").addEventListener("click", saveSettings);
-//     document.getElementById("settings_backdrop").addEventListener("click", closeSettingsDialog)
-// };
+function addEvent(autoMode) {
+    document.getElementById("apmOuterWrapper").addEventListener("click", function () {
+        console.log("hourCycle change");
+        hour24 = !hour24;
+        setCookie("hour24", hour24, 30);
+        clock(autoMode)
+    });
+    document.getElementsByClassName("time")[0].addEventListener("click", rotateScreen);
+    document.getElementById("top").addEventListener("click", changeTopMode);
+    document.getElementById("bottom").addEventListener("click", changeBottomMode);
+    document.getElementById("date").addEventListener("click", changeBgMode);
+    document.getElementById("settings_icon").addEventListener("click", openSettingsDialog);
+    document.getElementById("save_button").addEventListener("click", saveSettings);
+    document.getElementById("settings_backdrop").addEventListener("click", closeSettingsDialog)
+};
