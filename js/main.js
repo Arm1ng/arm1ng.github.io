@@ -9,7 +9,7 @@ window.onload = function () {
         setCookie("rotation_mode", rotation_mode, 30)
     }
     rotation_mode = rotation_mode === 0 ? 3 : rotation_mode - 1;
-    // rotateScreen();
+    rotateScreen();
     if (hour24 !== "") {
         hour24 = hour24 === "true" ? true : false
     } else {
