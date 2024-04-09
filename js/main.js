@@ -438,8 +438,8 @@ function addEvent(autoMode) {
         clock(autoMode)
     });
     document.getElementsByClassName("time")[0].addEventListener("click", rotateScreen);
-    document.getElementById("top").addEventListener("click", changeTopMode);
-    document.getElementById("bottom").addEventListener("click", changeBottomMode);
+    // document.getElementById("top").addEventListener("click", changeTopMode);
+    // document.getElementById("bottom").addEventListener("click", changeBottomMode);
     document.getElementById("date").addEventListener("click", changeBgMode);
     document.getElementById("settings_icon").addEventListener("click", openSettingsDialog);
     document.getElementById("save_button").addEventListener("click", saveSettings);
