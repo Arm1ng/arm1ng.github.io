@@ -2,6 +2,7 @@ window.onload = function () {
     getIpInfo();
     clock(bg_autoMode);
     time_timer = setInterval("clock(" + bg_autoMode + ")", 60 * 1000);
+
     if (rotation_mode !== "") {
         rotation_mode = Number(rotation_mode)
     } else {
@@ -9,33 +10,19 @@ window.onload = function () {
         setCookie("rotation_mode", rotation_mode, 30)
     }
     rotation_mode = rotation_mode === 0 ? 3 : rotation_mode - 1;
+
     rotateScreen();
+
     if (hour24 !== "") {
         hour24 = hour24 === "true" ? true : false
     } else {
         hour24 = hour24_default;
         setCookie("hour24", hour24, 30)
     }
-    hitokoto()
-    document.getElementsByClassName("hitokoto_container")[0].style.display = "block"
-    weather()
-    document.getElementsByClassName("weather_container")[0].style.display = "block"
-    // if (top_mode !== "") {
-    //     top_mode = Number(top_mode)
-    // } else {
-    //     top_mode = top_mode_default;
-    //     setCookie("top_mode", top_mode, 30)
-    // }
-    // top_mode = top_mode === 0 ? TOP_MODE.length - 1 : top_mode - 1;
-    // changeTopMode();
-    // if (bottom_mode !== "") {
-    //     bottom_mode = Number(bottom_mode)
-    // } else {
-    //     bottom_mode = bottom_mode_default;
-    //     setCookie("bottom_mode", bottom_mode, 30)
-    // }
-    // bottom_mode = bottom_mode === 0 ? BOTTOM_MODE.length - 1 : bottom_mode - 1;
-    // changeBottomMode();
+    
+    getHitokoto()
+    getWeather()
+
     if (bg_mode !== "") {
         bg_mode = Number(bg_mode);
         bg_mode = bg_mode === 0 ? BG_MODE.length - 1 : bg_mode - 1;
@@ -44,9 +31,12 @@ window.onload = function () {
         bg_mode = bg_mode_default;
         setCookie("bg_mode", bg_mode, 30)
     }
+
     addEvent(bg_autoMode);
     delayHiddenSetting()
 };
+
+
 var KEY_UNSPLASH = "bXwWoUhPeVw-yvSesGMgaOENnlSzhHYB43kZIQOR8cQ";
 var KEY_QWEATHER = getCookie("qweatherKey");
 var API_HITOKOTO = "https://v1.hitokoto.cn?encode=json&charset=utf-8";
@@ -89,6 +79,7 @@ var pic_timer = null;
 var settings_timer = null;
 var autoModeImg = "&#xe8e3";
 
+
 function createXHR() {
     var xhr = null;
     if (window.XMLHttpRequest) {
@@ -100,6 +91,7 @@ function createXHR() {
     }
     return xhr
 }
+
 
 function hitokoto() {
     console.log("hitokoto update");
@@ -117,16 +109,6 @@ function hitokoto() {
     xhr.send(null)
 }
 
-function poem() {
-    console.log("poem update");
-    jinrishici.load(function (result) {
-        poem_data = result.data;
-        var sentence = document.querySelector("#poem_sentence");
-        var info = document.querySelector("#poem_info");
-        sentence.innerHTML = poem_data.content;
-        info.innerHTML = "【" + poem_data.origin.dynasty + "】" + poem_data.origin.author + "《" + poem_data.origin.title + "》"
-    })
-}
 
 function getIpInfo() {
     var xhr = createXHR();
@@ -144,10 +126,12 @@ function getIpInfo() {
     xhr.send(null)
 }
 
+
 function clock(autoMode) {
     var date = new Date();
     var utc8DiffMinutes = date.getTimezoneOffset() + timezoneOffset;
     date.setMinutes(date.getMinutes() + utc8DiffMinutes);
+    var yyyy = date.getFullYear();
     var MM = date.getMonth() + 1;
     var dd = date.getDate();
     var day = date.getDay();
@@ -183,19 +167,14 @@ function clock(autoMode) {
     document.getElementById("time").innerHTML = timeString;
     if (!dd_data || dd !== dd_data) {
         dd_data = dd;
+        var yearString = yyyy + "年";
         var dateString = MM + "月" + dd + "日";
         var weekList = ["日", "一", "二", "三", "四", "五", "六"];
         var weekString = "星期" + weekList[day];
-        document.getElementById("date").innerHTML = dateString + " " + weekString;
-        // getLunar()
+        document.getElementById("date").innerHTML = yearString + " " + dateString + " " + weekString;
     }
 }
 
-// function getLunar() {
-//     var lunar = calendar.solar2lunar();
-//     document.getElementById("lunar").innerHTML = lunar.gzYear + "年" + lunar.IMonthCn + lunar.IDayCn;
-//     document.getElementById("holiday").innerHTML = "&nbsp;&nbsp;" + (lunar.lunarFestival || "") + (lunar.festival || "")
-// }
 
 function weather() {
     if (!getCookie("qweatherKey")) {
@@ -227,74 +206,23 @@ function weather() {
     xhr.send(null)
 }
 
-function weibo() {
-    console.log("weibo update");
-    var xhr = createXHR();
-    xhr.open("GET", API_WEIBO, true);
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            var data = JSON.parse(this.responseText);
-            var weibo_title = document.getElementsByClassName("weibo_title")[0];
-            var hot_word = document.getElementById("hot_word");
-            var hot_word_num = document.getElementById("hot_word_num");
-            if (data.data === 200) {
-                weibo_data = data.list;
-                weibo_title.innerHTML = "微博实时热搜";
-                hot_word.innerHTML = "";
-                hot_word_num.innerHTML = "";
-                for (var i = 0; i < weibo_num; i++) {
-                    var index = i + 1;
-                    hot_word.innerHTML += "<li>" + index + ". " + weibo_data[i].name + "</li>";
-                    hot_word_num.innerHTML += "<li>" + weibo_data[i].hot + "</li>"
-                }
-            } else {
-                console.error("微博热搜数据获取失败: " + data.msg);
-                weibo_title.innerHTML = "数据获取失败，请稍后再试～"
-            }
-        }
-    };
-    xhr.send(null)
-}
 
 function picture() {
     console.log("picture update")
 }
 
-// function changeMode(pos) {
-//     console.log("# change " + pos + " mode");
-//     var pos_mode = eval(pos + "_mode");
-//     var POS_MODE = eval(pos.toUpperCase() + "_MODE");
-//     if (pos_mode !== 0 && eval(POS_MODE[pos_mode] + "_timer")) {
-//         clearInterval(eval(POS_MODE[pos_mode] + "_timer"));
-//         eval(POS_MODE[pos_mode] + "_timer = null");
-//         console.log(POS_MODE[pos_mode] + "_timer destroyed")
-//     }
-//     pos_mode++;
-//     if (pos_mode === POS_MODE.length) {
-//         pos_mode = 0
-//     }
-//     eval(pos + "_mode = pos_mode");
-//     setCookie(pos + "_mode", pos_mode, 30);
-//     if (pos_mode !== 0) {
-//         if (!eval(POS_MODE[pos_mode] + "_data")) {
-//             eval(POS_MODE[pos_mode] + "()")
-//         }
-//         eval(POS_MODE[pos_mode] + '_timer = setInterval(POS_MODE[pos_mode] + "()", 60 * 1000 * 60)');
-//         console.log(POS_MODE[pos_mode] + "_timer created")
-//     }
-//     for (var i = 0; i < POS_MODE.length; i++) {
-//         document.getElementsByClassName(POS_MODE[i] + "_container")[0].style.display = "none"
-//     }
-//     document.getElementsByClassName(POS_MODE[pos_mode] + "_container")[0].style.display = "block"
-// }
 
-// function changeTopMode() {
-//     changeMode("top")
-// }
+function getHitokoto() {
+    hitokoto()
+    document.getElementsByClassName("hitokoto_container")[0].style.display = "block"
+}
 
-// function changeBottomMode() {
-//     changeMode("bottom")
-// }
+
+function getWeather() {
+    weather()
+    document.getElementsByClassName("weather_container")[0].style.display = "block"
+}
+
 
 function rotateScreen() {
     console.log("# rotate screen " + rotation_mode);
@@ -336,6 +264,7 @@ function rotateScreen() {
     setCookie("rotation_mode", rotation_mode, 30)
 }
 
+
 function changeBgMode() {
     console.log("# change background");
     var page = document.getElementsByClassName("page")[0];
@@ -361,7 +290,7 @@ function changeBgMode() {
         } else {
             if (bg_mode === 2) {
                 var date = new Date();
-                var utc8DiffMinutes = date.getTimezoneOffset() + 480;
+                var utc8DiffMinutes = date.getTimezoneOffset() + timezoneOffset;
                 date.setMinutes(date.getMinutes() + utc8DiffMinutes);
                 var hour = date.getHours();
                 if (hour > nightHour || hour < morningHour) {
@@ -405,11 +334,13 @@ function changeBgMode() {
     }
 }
 
+
 function delayHiddenSetting() {
     settings_timer = setTimeout(function () {
         document.getElementById("settings_icon").style.visibility = "hidden"
     }, 3000)
 }
+
 
 function openSettingsDialog() {
     clearTimeout(settings_timer);
@@ -417,10 +348,12 @@ function openSettingsDialog() {
     document.getElementById("settings_dialog").style.display = "block"
 }
 
+
 function closeSettingsDialog() {
     delayHiddenSetting();
     document.getElementById("settings_dialog").style.display = "none"
 }
+
 
 function saveSettings() {
     const qweatherKey = document.getElementById("qweather_input").value;
@@ -430,6 +363,7 @@ function saveSettings() {
     window.location.reload()
 }
 
+
 function addEvent(autoMode) {
     document.getElementById("apmOuterWrapper").addEventListener("click", function () {
         console.log("hourCycle change");
@@ -438,8 +372,8 @@ function addEvent(autoMode) {
         clock(autoMode)
     });
     document.getElementsByClassName("time")[0].addEventListener("click", rotateScreen);
-    // document.getElementById("top").addEventListener("click", changeTopMode);
-    // document.getElementById("bottom").addEventListener("click", changeBottomMode);
+    document.getElementById("top").addEventListener("click", getHitokoto);
+    document.getElementById("bottom").addEventListener("click", getWeather);
     document.getElementById("date").addEventListener("click", changeBgMode);
     document.getElementById("settings_icon").addEventListener("click", openSettingsDialog);
     document.getElementById("save_button").addEventListener("click", saveSettings);
