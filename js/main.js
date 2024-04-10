@@ -118,7 +118,7 @@ function getIpInfo() {
             var data = JSON.parse(this.responseText);
             cityLocation = data.longitude + "," + data.latitude;
             cIp = data.ip;
-            city = data.region;
+            city = data.city;
             utc_offset = data.utc_offset;
             timezoneOffset = parseInt(utc_offset.replace("+0","") || "800") * 0.6
         }
