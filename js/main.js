@@ -40,7 +40,8 @@ window.onload = function () {
 var KEY_UNSPLASH = "bXwWoUhPeVw-yvSesGMgaOENnlSzhHYB43kZIQOR8cQ";
 var KEY_QWEATHER = getCookie("qweatherKey");
 var API_HITOKOTO = "https://v1.hitokoto.cn?encode=json&charset=utf-8";
-var API_IP_INFO = "https://ipapi.co/json?languages=zh-CN";
+var API_IP_INFO = "https://api.ip.sb/geoip";
+// var API_IP_INFO = "https://ipapi.co/json?languages=zh-CN";
 var API_WEATHER = "https://devapi.qweather.com/v7/weather/now?";
 var API_WEIBO = "https://tenapi.cn/resou/";
 var TOP_MODE = ["nonetop", "hitokoto", "poem", "weibo"];
@@ -119,8 +120,8 @@ function getIpInfo() {
             cityLocation = data.longitude + "," + data.latitude;
             cIp = data.ip;
             city = data.city;
-            utc_offset = data.utc_offset;
-            timezoneOffset = parseInt(utc_offset.replace("+0","") || "800") * 0.6
+            // utc_offset = data.utc_offset;
+            // timezoneOffset = parseInt(utc_offset.replace("+0","") || "800") * 0.6
         }
     };
     xhr.send(null)
@@ -129,8 +130,9 @@ function getIpInfo() {
 
 function clock(autoMode) {
     var date = new Date();
-    var utc8DiffMinutes = date.getTimezoneOffset() + timezoneOffset;
-    date.setMinutes(date.getMinutes() + utc8DiffMinutes);
+    // var utc8DiffMinutes = date.getTimezoneOffset() + timezoneOffset;
+    // date.setMinutes(date.getMinutes() + utc8DiffMinutes);
+    date.setMinutes(date.getMinutes())
     var yyyy = date.getFullYear();
     var MM = date.getMonth() + 1;
     var dd = date.getDate();
