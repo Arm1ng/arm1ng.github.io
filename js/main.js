@@ -120,7 +120,8 @@ function getIpInfo() {
             cityLocation = data.longitude + "," + data.latitude;
             cIp = data.ip;
             city = data.city;
-            // utc_offset = data.utc_offset;
+            utc_offset = data.offset;
+            timezoneOffset = parseInt(utc_offset || "28800") / 60;
             // timezoneOffset = parseInt(utc_offset.replace("+0","") || "800") * 0.6
         }
     };
@@ -130,8 +131,8 @@ function getIpInfo() {
 
 function clock(autoMode) {
     var date = new Date();
-    // var utc8DiffMinutes = date.getTimezoneOffset() + timezoneOffset;
-    // date.setMinutes(date.getMinutes() + utc8DiffMinutes);
+    var utc8DiffMinutes = date.getTimezoneOffset() + timezoneOffset;
+    date.setMinutes(date.getMinutes() + utc8DiffMinutes);
     date.setMinutes(date.getMinutes())
     var yyyy = date.getFullYear();
     var MM = date.getMonth() + 1;
