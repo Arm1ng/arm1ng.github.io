@@ -20,8 +20,8 @@ window.onload = function () {
         setCookie("hour24", hour24, 30)
     }
     
-    runTaskEveryDelay(getHitokoto, 3600 * 1000);    //每1小时执行一次获取一言任务
-    runTaskEveryDelay(getWeather, 21600 * 1000);    //每6小时执行一次获取天气任务
+    runTaskEveryDelay(getHitokoto, 28800 * 1000);    //每8小时执行一次获取一言任务
+    runTaskEveryDelay(getWeather, 28800 * 1000);    //每8小时执行一次获取天气任务
 
     if (bg_mode !== "") {
         bg_mode = Number(bg_mode);
